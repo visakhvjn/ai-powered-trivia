@@ -44,3 +44,7 @@ export default {
 
 - We use tailwind to do css as it provides smooth utility classes
 - Start by defining theme values in `tailwind.config.js`
+
+## Formatter - Prettier
+
+- We use the Prettier extension to format the source code on `save`
