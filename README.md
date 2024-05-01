@@ -17,14 +17,36 @@ If you are developing a production application, we recommend updating the config
 export default {
   // other rules...
   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
+    ecmaVersion: "latest",
+    sourceType: "module",
+    project: ["./tsconfig.json", "./tsconfig.node.json"],
     tsconfigRootDir: __dirname,
   },
-}
+};
 ```
 
 - Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
 - Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
 - Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+
+<br />
+
+## Build Tool - Vite
+
+- We use Vite for building as it supports speedy HRM
+
+<br />
+
+## Authentication - Auth0
+
+- We use Auth0 to allow authentication in the application. You can find two buttons namely `<Auth0LoginButton />` and `<Auth0LogoutButton />` for the same
+- For new projects, you will have to login to the auth0 dashboard - https://manage.auth0.com/dashboard and configure a new project.
+- Go to Settings under your project and copy the `domain` and `Client Id` values into `.env` file.
+- Add the callback, redirect and allowed origins urls. For development, http://localhost:<port> works fine
+
+<br />
+
+## CSS Framework - Tailwind
+
+- We use tailwind to do css as it provides smooth utility classes
+- Start by defining theme values in `tailwind.config.js`
