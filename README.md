@@ -29,13 +29,9 @@ export default {
 - Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
 - Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
 
-<br />
-
 ## Build Tool - Vite
 
 - We use Vite for building as it supports speedy HRM
-
-<br />
 
 ## Authentication - Auth0
 
@@ -43,8 +39,6 @@ export default {
 - For new projects, you will have to login to the auth0 dashboard - https://manage.auth0.com/dashboard and configure a new project.
 - Go to Settings under your project and copy the `domain` and `Client Id` values into `.env` file.
 - Add the callback, redirect and allowed origins urls. For development, http://localhost:<port> works fine
-
-<br />
 
 ## CSS Framework - Tailwind
 
