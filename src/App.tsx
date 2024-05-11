@@ -1,38 +1,28 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
-import { Auth0LoginButton, Auth0LogoutButton } from "./components/index";
+
+import { Trivia } from "./components/index";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1 className="text-8xl">Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-      <div>
-        <Auth0LoginButton onLogin={() => {}} />
-        <Auth0LogoutButton onLogout={() => {}} />
-      </div>
+      <Trivia
+        question="Which scientist is known for developing the theory of relativity, which revolutionized our understanding of space, time, and gravity?"
+        options={[
+          "Isaac Newton",
+          "Albert Einstein",
+          "Galileo Galilei",
+          "Nikola Tesla",
+        ]}
+        correctOption="Isaac Newton"
+        description="The correct option is B) Albert Einstein. Albert Einstein, a German-born physicist, is widely recognized for his groundbreaking contributions to theoretical physics. His theory of relativity, encompassing both special relativity and general relativity, transformed our understanding of fundamental concepts such as space, time, and gravity. Special relativity, proposed in 1905, introduced the concept of spacetime and the famous equation E=mc^2, which describes the equivalence of mass and energy. General relativity, developed in 1915, provided a new understanding of gravity as the curvature of spacetime caused by mass and energy. Einstein's theories have had profound implications for modern physics, cosmology, and our comprehension of the universe.
+
+
+
+
+
+
+        "
+      />
     </>
   );
 }
