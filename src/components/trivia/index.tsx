@@ -56,7 +56,17 @@ const Trivia: React.FC = () => {
         <div className="flex flex-col text-left">
           <div className="flex">
             <span className="text-slate-500 font-bold text-sm">
-              #{category.toLowerCase().split(" ").join()}
+              #
+              {category
+                .toLowerCase()
+                .replace(/[^a-z]/g, "")
+                .split(" ")
+                .map((word, index) =>
+                  index === 0
+                    ? word
+                    : word.charAt(0).toUpperCase() + word.slice(1)
+                )
+                .join()}
             </span>
           </div>
           <div>
@@ -68,7 +78,7 @@ const Trivia: React.FC = () => {
                 onClick={() => onOptionClick(index)}
                 key={index}
                 disabled={isAttempted}
-                className={`p-4 text-white ${
+                className={`p-4 text-white ${!isAttempted && "bg-black"} ${
                   isAttempted &&
                   (index === clickedOptionIndex
                     ? clickedOptionIndex === correctOptionIndex
@@ -85,8 +95,8 @@ const Trivia: React.FC = () => {
           </div>
           {isAttempted && (
             <div>
-              <div className="p-4 mt-2">
-                <p className="text- text-wrap">{summary}</p>
+              <div className="my-2">
+                <p className="text-slate-500">{summary}</p>
               </div>
               <div>
                 <button
