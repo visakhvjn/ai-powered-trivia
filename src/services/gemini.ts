@@ -40,7 +40,7 @@ export const getTriviaFromGemini = async () => {
   });
 
   const result = await chat.sendMessage(
-    "Give me a unique question with 4 options and one correct option and a medium summary about the correct option. The json should have keys question, options (array of strings with no option number), correctOption and summary",
+    "Give me a unique question with 4 options and one correct option and a medium summary about the correct option. The json should have keys question, options (array of strings with no option number), correctOption, summary and category",
   );
 
   const response = result.response;

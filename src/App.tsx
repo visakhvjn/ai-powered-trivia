@@ -4,8 +4,8 @@ import { Trivia } from "./components/index";
 
 function App() {
   return (
-    <div className="flex w-full items-center justify-center">
-      <div className="w-3/4">
+    <div className="flex w-full items-center justify-center text-black">
+      <div>
         <Trivia />
       </div>
     </div>
