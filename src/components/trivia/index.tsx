@@ -1,20 +1,21 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { getTriviaFromGemini } from "../../services/gemini";
 import Loader from "../loader";
+import { useQuery } from "react-query";
 
 const Trivia: React.FC = () => {
-  const [isAttempted, setIsAttempted] = useState(false);
-  const [isNextQuestionLoading, setIsNextQuestionLoading] = useState(false);
-
-  const [question, setQuestion] = useState<string>("");
-  const [options, setOptions] = useState<string[]>([]);
-  const [correctOption, setCorrectOption] = useState<string>("");
-  const [summary, setSummary] = useState<string>("");
-  const [category, setCategory] = useState<string>("");
-
-  const [correctOptionIndex, setCorrectOptionIndex] = useState<number>(
-    options.findIndex((option) => option === correctOption)
+  const { isLoading, data, refetch, isRefetching } = useQuery(
+    "trivia",
+    () => getTriviaFromGemini(),
+    {
+      staleTime: Infinity,
+    }
   );
+
+  const [isAttempted, setIsAttempted] = useState(false);
+
+  const [correctOptionIndex, setCorrectOptionIndex] = useState<number>(-1);
   const [clickedOptionIndex, setClickedOptionIndex] = useState<number>(-1);
 
   const onOptionClick = (optionIndex: number) => {
@@ -24,40 +25,28 @@ const Trivia: React.FC = () => {
 
   const onNexTriviaClick = () => {
     setIsAttempted(false);
-    getNextTrivia();
-  };
-
-  const getNextTrivia = () => {
-    setIsNextQuestionLoading(true);
-    getTriviaFromGemini().then((trivia) => {
-      console.log(trivia);
-      setQuestion(trivia?.question);
-      setOptions(trivia?.options);
-      setCorrectOption(trivia?.correctOption);
-      setSummary(trivia?.summary);
-      setCategory(trivia?.category);
-      setCorrectOptionIndex(
-        trivia?.options.findIndex(
-          (option: string) => option === trivia?.correctOption
-        )
-      );
-      setIsNextQuestionLoading(false);
-    });
+    refetch();
   };
 
   useEffect(() => {
-    getNextTrivia();
-  }, []);
+    if (!isLoading && data?.correctOption) {
+      setCorrectOptionIndex(
+        data.options.findIndex(
+          (option: string) => option === data?.correctOption
+        )
+      );
+    }
+  }, [isLoading]);
 
   return (
     <div>
-      {isNextQuestionLoading && <Loader />}
-      {!isNextQuestionLoading && (
+      {(isLoading || isRefetching) && <Loader />}
+      {!isLoading && !isRefetching && (
         <div className="flex flex-col text-left">
           <div className="flex">
             <span className="text-slate-500 font-bold text-sm">
               #
-              {category
+              {data?.category
                 .toLowerCase()
                 .replace(/[^a-z]/g, "")
                 .split(" ")
@@ -70,10 +59,10 @@ const Trivia: React.FC = () => {
             </span>
           </div>
           <div>
-            <h2 className="font-bold text-2xl">{question}</h2>
+            <h2 className="font-bold text-2xl">{data?.question}</h2>
           </div>
           <div className="grid grid-cols-1 mt-4 md:grid-cols-2 gap-1">
-            {options.map((option, index) => (
+            {data?.options.map((option, index) => (
               <button
                 onClick={() => onOptionClick(index)}
                 key={index}
@@ -96,7 +85,7 @@ const Trivia: React.FC = () => {
           {isAttempted && (
             <div>
               <div className="my-2">
-                <p className="text-slate-500">{summary}</p>
+                <p className="text-slate-500">{data?.summary}</p>
               </div>
               <div>
                 <button
