@@ -1,9 +1,10 @@
 import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from "@google/generative-ai";
+import { Trivia } from "../types";
 
 const MODEL_NAME = "gemini-1.0-pro";
 const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 
-export const getTriviaFromGemini = async () => {
+export const getTriviaFromGemini = async (): Promise<Trivia> => {
   console.log(API_KEY);
   const genAI = new GoogleGenerativeAI(API_KEY);
   const model = genAI.getGenerativeModel({ model: MODEL_NAME });
@@ -44,5 +45,5 @@ export const getTriviaFromGemini = async () => {
   );
 
   const response = result.response;
-  return JSON.parse(response.text().replace(/^```json|```$/g, ''));
+  return JSON.parse(response.text().replace(/^```json|```$/g, '')) as Trivia;
 };
