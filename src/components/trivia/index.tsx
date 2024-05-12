@@ -2,16 +2,13 @@
 import React, { useEffect, useState } from "react";
 import { getTriviaFromGemini } from "../../services/gemini";
 import Loader from "../loader";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 
 const Trivia: React.FC = () => {
-  const { isLoading, data, refetch, isRefetching } = useQuery(
-    "trivia",
-    () => getTriviaFromGemini(),
-    {
-      staleTime: Infinity,
-    }
-  );
+  const { isLoading, data, refetch, isRefetching } = useQuery({
+    queryKey: ["trivia"],
+    queryFn: async () => getTriviaFromGemini(),
+  });
 
   const [isAttempted, setIsAttempted] = useState(false);
 
