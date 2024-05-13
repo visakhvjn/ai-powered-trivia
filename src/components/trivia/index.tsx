@@ -3,12 +3,15 @@ import React, { useEffect, useState } from "react";
 import { getTriviaFromGemini } from "../../services/gemini";
 import Loader from "../loader";
 import { useQuery } from "@tanstack/react-query";
+import { useCoinContext } from "../../context/coin";
 
 const Trivia: React.FC = () => {
   const { isLoading, data, refetch, isRefetching } = useQuery({
     queryKey: ["trivia"],
     queryFn: async () => getTriviaFromGemini(),
   });
+
+  const { addCoin } = useCoinContext();
 
   const [isAttempted, setIsAttempted] = useState(false);
 
@@ -18,6 +21,10 @@ const Trivia: React.FC = () => {
   const onOptionClick = (optionIndex: number) => {
     setClickedOptionIndex(optionIndex);
     setIsAttempted(true);
+
+    if (correctOptionIndex === optionIndex) {
+      addCoin(1);
+    }
   };
 
   const onNexTriviaClick = () => {
@@ -26,6 +33,7 @@ const Trivia: React.FC = () => {
   };
 
   useEffect(() => {
+    console.log(data);
     if (!isLoading && data?.correctOption) {
       setCorrectOptionIndex(
         data.options.findIndex(
@@ -33,7 +41,7 @@ const Trivia: React.FC = () => {
         )
       );
     }
-  }, [isLoading]);
+  }, [isLoading, isRefetching]);
 
   return (
     <div>

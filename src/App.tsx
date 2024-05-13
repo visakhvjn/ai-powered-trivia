@@ -1,10 +1,16 @@
 import "./App.css";
 
-import { Trivia } from "./components/index";
+import { Coin, Header, Logo, Trivia } from "./components/index";
 
 function App() {
   return (
     <div className="flex w-full items-center justify-center text-black">
+      <Header>
+        <div className="flex justify-between w-full">
+          <Logo />
+          <Coin />
+        </div>
+      </Header>
       <div>
         <Trivia />
       </div>
