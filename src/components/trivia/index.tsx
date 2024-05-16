@@ -33,10 +33,9 @@ const Trivia: React.FC = () => {
   };
 
   useEffect(() => {
-    console.log(data);
     if (!isLoading && data?.correctOption) {
       setCorrectOptionIndex(
-        data.options.findIndex(
+        data?.options?.findIndex(
           (option: string) => option === data?.correctOption
         )
       );
@@ -52,7 +51,7 @@ const Trivia: React.FC = () => {
             <span className="text-slate-500 font-bold text-sm">
               #
               {data?.category
-                .toLowerCase()
+                ?.toLowerCase()
                 .replace(/[^a-z]/g, "")
                 .split(" ")
                 .map((word, index) =>
@@ -67,21 +66,20 @@ const Trivia: React.FC = () => {
             <h2 className="font-bold text-2xl">{data?.question}</h2>
           </div>
           <div className="grid grid-cols-1 mt-4 md:grid-cols-2 gap-1">
-            {data?.options.map((option, index) => (
+            {data?.options?.map((option, index) => (
               <button
                 onClick={() => onOptionClick(index)}
                 key={index}
                 disabled={isAttempted}
-                className={`p-4 text-white ${!isAttempted && "bg-black"} ${
-                  isAttempted &&
+                className={`p-4 text-white ${!isAttempted && "bg-black"} ${isAttempted &&
                   (index === clickedOptionIndex
                     ? clickedOptionIndex === correctOptionIndex
                       ? "bg-green-500"
                       : "bg-red-500"
                     : index === correctOptionIndex
-                    ? "bg-green-500"
-                    : "")
-                }`}
+                      ? "bg-green-500"
+                      : "")
+                  }`}
               >
                 {option}
               </button>
