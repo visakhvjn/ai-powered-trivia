@@ -21,8 +21,12 @@ const Auth0LoginButton: React.FC<Auth0LoginButtonProps> = ({ onLogin }) => {
 
   return (
     <div>
-      <button disabled={isAuthenticated} onClick={handleLogin}>
-        Login
+      <button
+        className="bg-white border border-black w-full hover:bg-black hover:text-white"
+        disabled={isAuthenticated}
+        onClick={handleLogin}
+      >
+        Login via Google
       </button>
     </div>
   );

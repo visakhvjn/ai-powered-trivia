@@ -46,3 +46,46 @@ export const getTriviaFromGemini = async (): Promise<Trivia> => {
   const response = result.response;
   return JSON.parse(response.text().replace(/^```json|```$/g, '')) as Trivia;
 };
+
+export const getTriviaCategoriesFromGemini = async (): Promise<string[]> => {
+  const genAI = new GoogleGenerativeAI(API_KEY);
+  const model = genAI.getGenerativeModel({ model: MODEL_NAME });
+
+  const generationConfig = {
+    temperature: 0.9,
+    topK: 1,
+    topP: 1,
+    maxOutputTokens: 2048,
+  };
+
+  const safetySettings = [
+    {
+      category: HarmCategory.HARM_CATEGORY_HARASSMENT,
+      threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
+    },
+    {
+      category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
+      threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
+    },
+    {
+      category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
+      threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
+    },
+    {
+      category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+      threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
+    },
+  ];
+
+  const chat = await model.startChat({
+    generationConfig,
+    safetySettings,
+  });
+
+  const result = await chat.sendMessage(
+    "Give me a list of 20 trivia categories as an array of strings",
+  );
+
+  const response = result.response;
+  return JSON.parse(response.text().replace(/^```json|```$/g, '')) as string[];
+}
