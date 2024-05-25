@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { getTriviaFromGemini } from "../../services/gemini";
-import Loader from "../loader";
+import Loader from "../components/loader/index";
 import { useQuery } from "@tanstack/react-query";
-import { useCoinContext } from "../../context/coin";
+import { useCoinContext } from "../context/coin";
+import { getTriviaFromGemini } from "../services/gemini";
 
 const Trivia: React.FC = () => {
   const { isLoading, data, refetch, isRefetching } = useQuery({
     queryKey: ["trivia"],
-    queryFn: async () => getTriviaFromGemini(),
+    queryFn: async () => {
+      const selectedCategories = localStorage.getItem("selectedCategories");
+      return getTriviaFromGemini(
+        selectedCategories ? JSON.parse(selectedCategories) : []
+      );
+    },
   });
 
   const { addCoin } = useCoinContext();
@@ -46,21 +51,6 @@ const Trivia: React.FC = () => {
       {(isLoading || isRefetching) && <Loader />}
       {!isLoading && !isRefetching && (
         <div className="flex flex-col text-left">
-          <div className="flex">
-            <span className="text-slate-500 font-bold text-sm">
-              #
-              {data?.category
-                ?.toLowerCase()
-                .replace(/[^a-z]/g, "")
-                .split(" ")
-                .map((word, index) =>
-                  index === 0
-                    ? word
-                    : word.charAt(0).toUpperCase() + word.slice(1)
-                )
-                .join()}
-            </span>
-          </div>
           <div>
             <h2 className="font-bold text-2xl">{data?.question}</h2>
           </div>
@@ -70,7 +60,10 @@ const Trivia: React.FC = () => {
                 onClick={() => onOptionClick(index)}
                 key={index}
                 disabled={isAttempted}
-                className={`p-4 text-white ${!isAttempted && "bg-black"} ${
+                className={`p-4  border border-black  ${
+                  !isAttempted &&
+                  "text-black bg-white hover:bg-black hover:text-white"
+                } ${
                   isAttempted &&
                   (index === clickedOptionIndex
                     ? clickedOptionIndex === correctOptionIndex
@@ -92,7 +85,7 @@ const Trivia: React.FC = () => {
               </div>
               <div>
                 <button
-                  className="text-white"
+                  className="text-white bg-black px-4 py-3"
                   disabled={!isAttempted}
                   onClick={onNexTriviaClick}
                 >

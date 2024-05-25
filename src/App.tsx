@@ -1,7 +1,7 @@
 import "./App.css";
 // import BrainIcon from './assets/brain_ai.svg';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Categories, Login, NotFound } from "./pages";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Categories, Login, NotFound, Trivia } from "./pages";
 
 // import { Coin, Header, Hero, Logo, Trivia } from "./components/index";
 
@@ -11,9 +11,10 @@ function App() {
       <Routes>
         <Route path="/" index element={<Login />} />
         <Route path="/categories" index element={<Categories />} />
+        <Route path="/trivia" element={<Trivia />} />
         <Route path="*" index element={<NotFound />} />
       </Routes>
-    </BrowserRouter>  
+    </BrowserRouter>
     // <div className="flex flex-col w-full items-center justify-center text-black">
     //   <Header>
     //     <div className="flex justify-between w-full">

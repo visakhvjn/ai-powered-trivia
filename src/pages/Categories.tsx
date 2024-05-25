@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getTriviaCategoriesFromGemini } from "../services/gemini";
+import { useNavigate } from "react-router-dom";
 
 const Categories: React.FC = () => {
   const [categories, setCategories] = useState<string[]>(
@@ -7,7 +8,12 @@ const Categories: React.FC = () => {
   );
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
+    // So that selected categories are removed from cache.
+    localStorage.removeItem("selectedCategories");
+
     if (!categories.length) {
       getTriviaCategoriesFromGemini().then((result) => {
         const sortedResults = result.sort();
@@ -19,13 +25,26 @@ const Categories: React.FC = () => {
   }, []);
 
   const onClickCategory = (category: string) => {
-    if (!selectedCategories.includes(category)) {
-      setSelectedCategories([...selectedCategories, category]);
+    let _selectedCategories = selectedCategories;
+
+    if (!_selectedCategories.includes(category)) {
+      _selectedCategories.push(category);
     } else {
-      setSelectedCategories(
-        selectedCategories.filter((_category) => _category !== category)
+      _selectedCategories = _selectedCategories.filter(
+        (_category) => _category !== category
       );
     }
+
+    localStorage.setItem(
+      "selectedCategories",
+      JSON.stringify(_selectedCategories)
+    );
+
+    setSelectedCategories([..._selectedCategories]);
+  };
+
+  const onGetStarted = () => {
+    navigate("/trivia");
   };
 
   return (
@@ -50,7 +69,10 @@ const Categories: React.FC = () => {
         })}
       </div>
       <div className="mt-10 flex">
-        <button className="px-10 py-3 m-1 border border-black bg-black text-white shadow-lg tracking-widest flex items-center">
+        <button
+          className="px-10 py-3 m-1 border border-black bg-black text-white shadow-lg tracking-widest flex items-center"
+          onClick={onGetStarted}
+        >
           Get Started{""}
           {!!selectedCategories.length && (
             <span className="bg-white text-black rounded-full w-6 h-6 items-center justify-center ml-2">

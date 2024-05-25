@@ -4,7 +4,7 @@ import { Trivia } from "../types";
 const MODEL_NAME = "gemini-1.0-pro";
 const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 
-export const getTriviaFromGemini = async (): Promise<Trivia> => {
+export const getTriviaFromGemini = async (categories: string[] = []): Promise<Trivia> => {
   const genAI = new GoogleGenerativeAI(API_KEY);
   const model = genAI.getGenerativeModel({ model: MODEL_NAME });
 
@@ -39,9 +39,15 @@ export const getTriviaFromGemini = async (): Promise<Trivia> => {
     safetySettings,
   });
 
-  const result = await chat.sendMessage(
-    "Give me a unique question with 4 options and one correct option and a medium summary about the correct option. The json should have keys question, options (array of strings with no option number), correctOption, summary and category",
-  );
+  let message = '';
+
+  if (categories.length) {
+    message = `Give me a unique question that belongs to categories=${categories.join(',')} with 4 options and one correct option and a medium summary about the correct option. The json should have keys question, options (array of strings with no option number), correctOption, summary and category`;
+  } else {
+    message = `Give me a unique question with 4 options and one correct option and a medium summary about the correct option. The json should have keys question, options (array of strings with no option number), correctOption, summary and category`;
+  }
+
+  const result = await chat.sendMessage(message);
 
   const response = result.response;
   return JSON.parse(response.text().replace(/^```json|```$/g, '')) as Trivia;
