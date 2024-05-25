@@ -10,8 +10,10 @@ const Categories: React.FC = () => {
   useEffect(() => {
     if (!categories.length) {
       getTriviaCategoriesFromGemini().then((result) => {
-        localStorage.setItem("categories", JSON.stringify(result));
-        setCategories(result.sort());
+        const sortedResults = result.sort();
+
+        localStorage.setItem("categories", JSON.stringify(sortedResults));
+        setCategories(sortedResults);
       });
     }
   }, []);
