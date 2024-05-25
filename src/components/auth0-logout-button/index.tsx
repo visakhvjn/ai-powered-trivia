@@ -21,7 +21,11 @@ const Auth0LogoutButton: React.FC<Auth0LogoutButtonProps> = ({ onLogout }) => {
 
   return (
     <div>
-      <button disabled={!isAuthenticated} onClick={handleLogout}>
+      <button
+        disabled={!isAuthenticated}
+        onClick={handleLogout}
+        className="px-4 bg-white text-black border border-black py-1 hover:bg-black hover:text-white"
+      >
         Logout
       </button>
     </div>

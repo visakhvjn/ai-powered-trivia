@@ -42,7 +42,7 @@ export const getTriviaFromGemini = async (categories: string[] = []): Promise<Tr
   let message = '';
 
   if (categories.length) {
-    message = `Give me a unique question that belongs to categories=${categories.join(',')} with 4 options and one correct option and a medium summary about the correct option. The json should have keys question, options (array of strings with no option number), correctOption, summary and category`;
+    message = `Give me a unique question that belongs to either of the categories=[${categories.join(',')}] with 4 options and one correct option and a medium summary about the correct option. The json should have keys question, options (array of strings with no option number), correctOption, summary and category`;
   } else {
     message = `Give me a unique question with 4 options and one correct option and a medium summary about the correct option. The json should have keys question, options (array of strings with no option number), correctOption, summary and category`;
   }
@@ -89,7 +89,7 @@ export const getTriviaCategoriesFromGemini = async (): Promise<string[]> => {
   });
 
   const result = await chat.sendMessage(
-    "Give me a list of 20 trivia categories as an array of strings",
+    "Give me a list of 15 trivia categories as an array of strings",
   );
 
   const response = result.response;

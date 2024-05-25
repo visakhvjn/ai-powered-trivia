@@ -22,7 +22,7 @@ const Auth0LoginButton: React.FC<Auth0LoginButtonProps> = ({ onLogin }) => {
   return (
     <div>
       <button
-        className="bg-white border border-black w-full hover:bg-black hover:text-white"
+        className="px-4 bg-white text-black border border-black py-1 hover:bg-black hover:text-white"
         disabled={isAuthenticated}
         onClick={handleLogin}
       >
