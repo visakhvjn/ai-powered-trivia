@@ -6,7 +6,7 @@ const Loader: React.FC = () => {
       <div className="flex flex-col items-center justify-center h-full mt-20 p-20">
         <div className="w-12 h-12 border-t-4 border-secondary dark:border-primary rounded-full animate-spin"></div>
         <p className="text-secondary dark:text-primary font-semibold mt-10">
-          Getting the Next Question
+          Sit Tight! Loading
         </p>
       </div>
     </>

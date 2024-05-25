@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { getTriviaFromGemini } from "../../services/gemini";
 import Loader from "../loader";
@@ -71,15 +70,16 @@ const Trivia: React.FC = () => {
                 onClick={() => onOptionClick(index)}
                 key={index}
                 disabled={isAttempted}
-                className={`p-4 text-white ${!isAttempted && "bg-black"} ${isAttempted &&
+                className={`p-4 text-white ${!isAttempted && "bg-black"} ${
+                  isAttempted &&
                   (index === clickedOptionIndex
                     ? clickedOptionIndex === correctOptionIndex
                       ? "bg-green-500"
                       : "bg-red-500"
                     : index === correctOptionIndex
-                      ? "bg-green-500"
-                      : "")
-                  }`}
+                    ? "bg-green-500"
+                    : "")
+                }`}
               >
                 {option}
               </button>
